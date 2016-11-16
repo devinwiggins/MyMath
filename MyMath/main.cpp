@@ -3,10 +3,12 @@
 
 int main()
 {
+	/*float f = 4.56f;
+	f = truncf(f * 10.0) / 10.0;
+	std::cout << f << std::endl;*/
+	Vector2* A2d = new Vector2(0, 1);
 
-	Vector2d* A2d = new Vector2d(0, 1);
-
-	Vector2d B2d = Vector2d(1, 0);
+	Vector2 B2d = Vector2(1, 0);
 
 	/*assert(A2d->Add(B2d) == Vector2d(1, 1));
 	assert(A2d->Subtract(B2d) == Vector2d(-1, 1));
@@ -15,9 +17,9 @@ int main()
 	assert(A2d->Normalize() == Vector2d(0, 1));
 	assert(A2d->DotProduct(B2d) == (0));*/
 
-	Vector3d* A3d = new Vector3d(1, 0, 0);
+	Vector3* A3d = new Vector3(1, 0, 0);
 
-	Vector3d B3d = Vector3d(0, 1, 1);
+	Vector3 B3d = Vector3(0, 1, 1);
 	/*assert(A3d->Add(B3d) == Vector3d(1, 1, 1));
 	assert(A3d->Subtract(B3d) == Vector3d(1, -1, -1));
 	assert(A3d->ScalerMult(2) == Vector3d(2, 0, 0));
@@ -26,23 +28,27 @@ int main()
 	assert(A3d->DotProduct(B3d) == (0));
 	assert(A3d->CrossProduct(B3d) == Vector3d(0, -1, 1)); */
 	
-	Vector2d A2 = Vector2d(0, 1);
-	Vector2d B2 = Vector2d(1, 3);
-	Vector2d C2 = Vector2d(1, 1);
-	Vector2d D2 = Vector2d(1, 3);
-	Vector3d A3 = Vector3d(1, 0, 0);
-	Vector3d B3 = Vector3d(0, 1, 0);
-	Vector3d C3 = Vector3d(0, 0, 1);
-	Vector4d A4 = Vector4d(1, 0, 0, 0);
-	Vector4d B4 = Vector4d(0, 1, 0, 0);
-	Vector4d C4 = Vector4d(0, 0, 1, 0);
-	Vector4d D4 = Vector4d(0, 0, 0, 1);
-	Matrix2d Mat = Matrix2d(A2, B2);
-	Matrix2d Mat2 = Matrix2d(C2, D2);
-	Matrix2d a2 = Mat * Mat2;
-	Matrix3d a3 = Matrix3d(A3, B3, C3);
-	a3.RotateY(90);
-	a2.print();
-
+	Vector2 A2 = Vector2(0, 1);
+	Vector2 B2 = Vector2(1, 3);
+	Vector2 C2 = Vector2(1, 1);
+	Vector2 D2 = Vector2(1, 3);
+	Vector3 A3 = Vector3(1, 0, 0);
+	Vector3 B3 = Vector3(0, 1, 0);
+	Vector3 C3 = Vector3(0, 0, 1);
+	Vector4 A4 = Vector4(1, 0, 0, 0);
+	Vector4 B4 = Vector4(0, 1, 0, 0);
+	Vector4 C4 = Vector4(0, 0, 1, 0);
+	Vector4 D4 = Vector4(0, 0, 0, 1);
+	Matrix22 Mat = Matrix22(A2, B2);
+	Matrix22 Mat2 = Matrix22(C2, D2);
+	Matrix22 mat2 = Mat * Mat2;
+	Matrix33 mat3 = Matrix33(A3, B3, C3);
+	Matrix44 mat4 = Matrix44(A4, B4, C4, D4);
+	//assert(mat2 * mat == );
+	mat3.RotateY(90);
+	mat4.RotateY(90);
+	mat2.print();
+	//mat3.print();
+	//mat4.print();
 	system("pause");
 }
