@@ -3,6 +3,9 @@
 #include <iostream>
 #include <math.h>
 #include <cassert>
+#include <fstream>
+
+using namespace std;
 
 class Vector2
 {
@@ -75,53 +78,55 @@ public:
 	float W(); // returns w coordinate value
 };
 
-class Matrix22
+class Matrix2x2
 {
-	float m_MatShape[4]; // Container of Vector2's
 
+	float m_Matrix[4]; // Container of Vector2's
 public:
-	Matrix22() {}
-	Matrix22(float x1, float x2, float y1, float y2); 
-
-	Matrix22(Vector2 columnA, Vector2 columnB); // constructor of a Matrix made up of
-	Matrix22 operator * (Matrix22 k); // overloaded multiplication for matrix times a matrix
-	Matrix22 Mult(Matrix22 k); // returns the product of matrix 2x2s
+	Matrix2x2() {}
+	Matrix2x2(float x1, float x2, float y1, float y2); // constructor of a matrix2x2 made up of 4 floats
+	Matrix2x2(Vector2 columnA, Vector2 columnB); // constructor of a Matrix2x2 made up of Vector2s
+	Matrix2x2 operator * (Matrix2x2 k); // overloaded multiplication for matrix times a matrix
+	Matrix2x2 Mult(Matrix2x2 k); // returns the product of matrix 2x2s
 	Vector2 operator * (Vector2 k); // overloaded multiplication for Matrix times a Vector
 	Vector2 Mult(Vector2 k); // returns the product of a Matrix2x2 and a Vector2
-	void print(); // prints Matrix2x2 shape and values
+	bool operator == (Matrix2x2 & result); // overloaded = operator to compare Vectors
+	friend ofstream& operator << (ofstream & output, Matrix2x2 &n); // prints matrix to file
+	
 };
 
-class Matrix33
+class Matrix3x3
 {
-	float m_MatShape[9]; // Container of Matrix3x3 values
+	float m_Matrix[9]; // Container of Matrix3x3 values
 public:
-	Matrix33() {}
-	Matrix33(float x1, float x2, float x3, float y1, float y2, float y3, float z1, float z2, float z3);
-	Matrix33(Vector3 columnA, Vector3 columnB, Vector3 columnC); // 
-	Matrix33 operator * (Matrix33 k);
-	Matrix33 Mult(Matrix33 k);
-	Vector3 operator * (Vector3 k);
-	Vector3 Mult(Vector3 k);
-	Matrix33 RotateX(float d);
-	Matrix33 RotateY(float d);
-	Matrix33 RotateZ(float d);
-	void print();
+	Matrix3x3() {}
+	Matrix3x3(float x1, float x2, float x3, float y1, float y2, float y3, float z1, float z2, float z3); // constructor of a Matrix3x3 made up of 9 floats
+	Matrix3x3(Vector3 columnA, Vector3 columnB, Vector3 columnC); // constructor of a Matrix3x3 made up of Vector3s
+	Matrix3x3 operator * (Matrix3x3 k); // overloaded multiplication for matrix times a matrix
+	Matrix3x3 Mult(Matrix3x3 k); // returns the product of matrix3x3s
+	Vector3 operator * (Vector3 k); // overloaded multiplication for Matrix times a Vector
+	Vector3 Mult(Vector3 k); // returns the product of a Matrix3x3 and a Vector3
+	bool operator == (Matrix3x3 & result); // overloaded = operator to compare Vectors
+	Matrix3x3 RotateX(float d); // rotates in respect to X axis
+	Matrix3x3 RotateY(float d); // rotates in respect to Y axis
+	Matrix3x3 RotateZ(float d); // rotates in respect to z axis
+	friend ofstream& operator << (ofstream & output, Matrix3x3 &n); //prints matrix to file
+
 };
 
-class Matrix44
+class Matrix4x4
 {
-	float m_MatShape[16];
+	float m_Matrix[16];
 public:
-	Matrix44(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4, float z1, float z2, float z3, float z4, float w1, float w2, float w3, float w4);
-
-	Matrix44(Vector4 columnA, Vector4 columnB, Vector4 columnC, Vector4 columnD);
-	Matrix44 operator * (Matrix44 k);
-	Matrix44 Mult(Matrix44 k);
-	Vector4 operator * (Vector4 k);
-	Vector4 Mult(Vector4 k);
-	Matrix44 RotateX(float d);
-	Matrix44 RotateY(float d);
-	Matrix44 RotateZ(float d);
-	void print();
-
+	Matrix4x4(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4, float z1, float z2, float z3, float z4, float w1, float w2, float w3, float w4); // constructor of a matrix4x4 made up of 16 floats
+	Matrix4x4(Vector4 columnA, Vector4 columnB, Vector4 columnC, Vector4 columnD); // constructor of a Matrix4x4 made up of Vector4s
+	Matrix4x4 operator * (Matrix4x4 k); // overloaded multiplication for matrix times a matrix
+	Matrix4x4 Mult(Matrix4x4 k); // returns the product of matrix 4x4s
+	Vector4 operator * (Vector4 k); // overloaded multiplication for Matrix times a Vector
+	Vector4 Mult(Vector4 k); // returns the product of a Matrix4x4 and a Vector4
+	bool operator == (Matrix4x4 & result); // overloaded = operator to compare Vectors
+	Matrix4x4 RotateX(float d); // rotates in respect to x axis
+	Matrix4x4 RotateY(float d); // rotates in respect to y axis
+	Matrix4x4 RotateZ(float d); // rotates in respect to z axis
+	friend ofstream& operator << (ofstream & output, Matrix4x4 &n); // prints matrix to file
 };

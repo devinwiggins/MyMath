@@ -1,9 +1,3 @@
 ﻿  MyMath.cpp
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(237): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(237): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(330): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(330): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(435): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\devin.wiggins\documents\visual studio 2015\projects\mymath\mymath\mymath.cpp(435): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  MyMath.vcxproj -> C:\Users\devin.wiggins\documents\visual studio 2015\Projects\MyMath\Debug\MyMath.exe
-  MyMath.vcxproj -> C:\Users\devin.wiggins\documents\visual studio 2015\Projects\MyMath\Debug\MyMath.pdb (Partial PDB)
+c:\users\devin.wiggins\documents\github\mymath\mymath\mymath.cpp(256): error C3861: 'Round': identifier not found
+c:\users\devin.wiggins\documents\github\mymath\mymath\mymath.cpp(257): error C3861: 'Round': identifier not found

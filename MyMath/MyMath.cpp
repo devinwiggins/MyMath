@@ -1,25 +1,34 @@
+
+
 #include "MyMath.h"
 
 Vector2 Vector2::Add(Vector2 B)
 {
+	// a vector2 instance's coordinate values are  added to another vector2's coordinate values 
 	Vector2 newVec = Vector2(m_x + B.m_x, m_y + B.m_y);
+	// a new vector is created that is the sum of the two vectors
 	return newVec;
 }
 
 Vector2 Vector2::Subtract(Vector2 B)
 {
+	// a vector2 instance's coordinate values are subtracted from another vector2's coordinate values
 	Vector2 newVec = Vector2(m_x - B.m_x, m_y - B.m_y);
+	// a new vector is created that is the difference of the two vectors
 	return newVec;
 }
 
 Vector2 Vector2::ScalerMult(float k)
 {
+	// a scaling value is multiplied by a vector2 instance to upscale or downscale it
 	Vector2 newVec = Vector2(m_x * k, m_y * k);
+	// a new vector is created to represent the new scaled vector
 	return newVec;
 }
 
 float Vector2::Magnitude()
 {
+	// presents the magnitude of a vector2 instance
 	float result = sqrt((m_x * m_x) + (m_y * m_y));
 	return result;
 }
@@ -34,6 +43,7 @@ Vector2 Vector2::Normalize()
 	B = B * (m_y / B);
 	m_x = B;
 	m_y = A;*/
+
 
 	Vector2 newVec = Vector2(m_x / Magnitude(), m_y / Magnitude());
 	return newVec;
@@ -51,17 +61,21 @@ bool Vector2::operator==(Vector2 & result)
 
 float Vector2::X()
 {
+
 	return m_x;
 }
 
 float Vector2::Y()
 {
+
 	return m_y;
 }
 
 Vector3 Vector3::Add(Vector3 B)
 {
+
 	Vector3 newVec = Vector3(m_x + B.m_x, m_y + B.m_y, m_z + B.m_z);
+
 	return newVec;
 }
 
@@ -108,7 +122,7 @@ bool Vector3::operator==(Vector3 & result)
 
 float Vector3::X()
 {
-	return m_x; 
+	return m_x;
 }
 
 float Vector3::Y()
@@ -181,7 +195,7 @@ float Vector4::W()
 	return m_w;
 }
 
-Matrix22::Matrix22(float x1, float x2, float y1, float y2)
+Matrix2x2::Matrix2x2(float x1, float x2, float y1, float y2)
 {
 	/*	 ___________________________________________
 		|											|
@@ -189,257 +203,265 @@ Matrix22::Matrix22(float x1, float x2, float y1, float y2)
 		|	MatShape[2] = y1 	MatShape[3] = y2	|
 		|___________________________________________| */
 
-	m_MatShape[0] = x1;
-	m_MatShape[1] = x2;
-	m_MatShape[2] = y1;
-	m_MatShape[3] = y2;
+	m_Matrix[0] = x1;
+	m_Matrix[1] = x2;
+	m_Matrix[2] = y1;
+	m_Matrix[3] = y2;
 }
 
-Matrix22::Matrix22(Vector2 columnA, Vector2 columnB)
+Matrix2x2::Matrix2x2(Vector2 columnA, Vector2 columnB)
 {
-	m_MatShape[0] = columnA.X();
-	m_MatShape[1] = columnB.X();
-	m_MatShape[2] = columnA.Y();
-	m_MatShape[3] = columnB.Y();
+	m_Matrix[0] = columnA.X();
+	m_Matrix[1] = columnB.X();
+	m_Matrix[2] = columnA.Y();
+	m_Matrix[3] = columnB.Y();
 }
 
-Matrix22 Matrix22::operator*(Matrix22 k)
+Matrix2x2 Matrix2x2::operator*(Matrix2x2 k)
 {
 	return Mult(k);
 }
 
-Matrix22 Matrix22::Mult(Matrix22 k)
+Matrix2x2 Matrix2x2::Mult(Matrix2x2 k)
 {
-	Matrix22 newMat = Matrix22((m_MatShape[0] * k.m_MatShape[0]) + (m_MatShape[1] * k.m_MatShape[2]),
-		(m_MatShape[0] * k.m_MatShape[1]) + (m_MatShape[1] * k.m_MatShape[3]),
-		(m_MatShape[2] * k.m_MatShape[0]) + (m_MatShape[3] * k.m_MatShape[2]),
-		(m_MatShape[2] * k.m_MatShape[1]) + (m_MatShape[3] * k.m_MatShape[3]));
+	Matrix2x2 newMat = Matrix2x2((m_Matrix[0] * k.m_Matrix[0]) + (m_Matrix[1] * k.m_Matrix[2]),
+		(m_Matrix[0] * k.m_Matrix[1]) + (m_Matrix[1] * k.m_Matrix[3]),
+		(m_Matrix[2] * k.m_Matrix[0]) + (m_Matrix[3] * k.m_Matrix[2]),
+		(m_Matrix[2] * k.m_Matrix[1]) + (m_Matrix[3] * k.m_Matrix[3]));
 	return newMat;
 }
 
-Vector2 Matrix22::operator*(Vector2 k)
+Vector2 Matrix2x2::operator*(Vector2 k)
 {
 	return Mult(k);
 }
 
-Vector2 Matrix22::Mult(Vector2 k)
+Vector2 Matrix2x2::Mult(Vector2 k)
 {
 	Vector2 resultVec = Vector2(
-		(k.X() * m_MatShape[0]) + (k.X() * m_MatShape[1]),
-		(k.Y() * m_MatShape[2]) + (k.Y() * m_MatShape[3]));
+		(k.X() * m_Matrix[0]) + (k.X() * m_Matrix[1]),
+		(k.Y() * m_Matrix[2]) + (k.Y() * m_Matrix[3]));
 	return resultVec;
 }
 
-void Matrix22::print()
+bool Matrix2x2::operator==(Matrix2x2 & result)
 {
-	float* tmp = &m_MatShape[0];
-	for (int i = 0; i < 16; i++)
-	{
-		float a = truncf(tmp[i] * 10.0) / 10.0;
-		tmp[i] = a;
-	}
-	std::cout << "{ " << m_MatShape[0] << "  " << m_MatShape[1] << "  }\n"
-		<< "{ " << m_MatShape[2] << "  " << m_MatShape[3] << " }\n";
+	return m_Matrix[0] == result.m_Matrix[0] && m_Matrix[1] == result.m_Matrix[1] && m_Matrix[2] == result.m_Matrix[2] && m_Matrix[3] == result.m_Matrix[3];
 }
 
-Matrix33::Matrix33(float x1, float x2, float x3, float y1, float y2, float y3, float z1, float z2, float z3)
-{
-	m_MatShape[0] = x1;	m_MatShape[1] = x2; m_MatShape[2] = x3;
-	m_MatShape[3] = y1; m_MatShape[4] = y2; m_MatShape[5] = y3;
-	m_MatShape[6] = z1; m_MatShape[7] = z2; m_MatShape[8] = z3;
-}
 
-Matrix33::Matrix33(Vector3 columnA, Vector3 columnB, Vector3 columnC)
+ofstream & operator<<(ofstream & output, Matrix2x2 & n)
 {
-	m_MatShape[0] = columnA.X(); m_MatShape[1] = columnB.X(); m_MatShape[2] = columnC.X();
-	m_MatShape[3] = columnA.Y(); m_MatShape[4] = columnB.Y(); m_MatShape[5] = columnC.Y();
-	m_MatShape[6] = columnA.Z(); m_MatShape[7] = columnB.Z(); m_MatShape[8] = columnC.Z();
+	output 
+		<< "{ " << Round(n.m_Matrix[0], 5u) << "  " << Round(n.m_Matrix[1], 5u) << "  }\n"
+		<< "{ " << Round(n.m_Matrix[2], 5u) << "  " << Round(n.m_Matrix[3], 5u) << " }\n";
 
 }
 
-Matrix33 Matrix33::operator*(Matrix33 k)
+ofstream & operator<<(ofstream & output, Matrix3x3 & n)
+{
+	output << "{ " << n.m_Matrix[0] << "  " << n.m_Matrix[1] << "  " << n.m_Matrix[2] << "  }\n"
+		<< "{ " << n.m_Matrix[3] << "     " << n.m_Matrix[4] << "  " << n.m_Matrix[5] << "    }\n"
+		<< "{ " << n.m_Matrix[6] << "  " << n.m_Matrix[7] << "  " << n.m_Matrix[8] << " }\n";
+
+}
+
+ofstream & operator<<(ofstream & output, Matrix4x4 & n)
+{
+	
+	output 
+		<< "{  " << n.m_Matrix[0] << "  " << n.m_Matrix[1] << "  " << n.m_Matrix[2] << "   " << n.m_Matrix[3] << "       }\n"
+		<< "{  " << n.m_Matrix[4] << "  " << n.m_Matrix[5] << "  " << n.m_Matrix[6] << "   " << n.m_Matrix[7] << "       }\n"
+		<< "{  " << n.m_Matrix[8] << "  " << n.m_Matrix[9] << "  " << n.m_Matrix[10] << "   " << n.m_Matrix[11] << "       }\n"
+		<< "{  " << n.m_Matrix[12] << "   " << n.m_Matrix[13] << "   " << n.m_Matrix[14] << "   " << n.m_Matrix[15] << "       }\n";
+}
+
+Matrix3x3::Matrix3x3(float x1, float x2, float x3, float y1, float y2, float y3, float z1, float z2, float z3)
+{
+	m_Matrix[0] = x1;	m_Matrix[1] = x2; m_Matrix[2] = x3;
+	m_Matrix[3] = y1; m_Matrix[4] = y2; m_Matrix[5] = y3;
+	m_Matrix[6] = z1; m_Matrix[7] = z2; m_Matrix[8] = z3;
+}
+
+Matrix3x3::Matrix3x3(Vector3 columnA, Vector3 columnB, Vector3 columnC)
+{
+	m_Matrix[0] = columnA.X(); m_Matrix[1] = columnB.X(); m_Matrix[2] = columnC.X();
+	m_Matrix[3] = columnA.Y(); m_Matrix[4] = columnB.Y(); m_Matrix[5] = columnC.Y();
+	m_Matrix[6] = columnA.Z(); m_Matrix[7] = columnB.Z(); m_Matrix[8] = columnC.Z();
+
+}
+
+Matrix3x3 Matrix3x3::operator*(Matrix3x3 k)
 {
 	return Mult(k);
 }
 
-Matrix33 Matrix33::Mult(Matrix33 k)
+Matrix3x3 Matrix3x3::Mult(Matrix3x3 k)
 {
-	Matrix33 newMat = Matrix33(
-		/*x1*/	(m_MatShape[0] * k.m_MatShape[0]) + (m_MatShape[1] * k.m_MatShape[3]) + (m_MatShape[2] * k.m_MatShape[6]),
-		/*x2*/	(m_MatShape[0] * k.m_MatShape[1]) + (m_MatShape[1] * k.m_MatShape[4]) + (m_MatShape[2] * k.m_MatShape[7]),
-		/*x3*/	(m_MatShape[0] * k.m_MatShape[2]) + (m_MatShape[1] * k.m_MatShape[5]) + (m_MatShape[2] * k.m_MatShape[8]),
-		/*y1*/	(m_MatShape[3] * k.m_MatShape[0]) + (m_MatShape[4] * k.m_MatShape[3]) + (m_MatShape[5] * k.m_MatShape[6]),
-		/*y2*/	(m_MatShape[3] * k.m_MatShape[1]) + (m_MatShape[4] * k.m_MatShape[4]) + (m_MatShape[5] * k.m_MatShape[7]),
-		/*y3*/	(m_MatShape[3] * k.m_MatShape[2]) + (m_MatShape[4] * k.m_MatShape[5]) + (m_MatShape[5] * k.m_MatShape[8]),
-		/*z1*/	(m_MatShape[6] * k.m_MatShape[0]) + (m_MatShape[7] * k.m_MatShape[3]) + (m_MatShape[8] * k.m_MatShape[6]),
-		/*z2*/	(m_MatShape[6] * k.m_MatShape[1]) + (m_MatShape[7] * k.m_MatShape[4]) + (m_MatShape[8] * k.m_MatShape[7]),
-		/*z3*/	(m_MatShape[6] * k.m_MatShape[2]) + (m_MatShape[7] * k.m_MatShape[5]) + (m_MatShape[8] * k.m_MatShape[8]));
+	Matrix3x3 newMat = Matrix3x3(
+		/*x1*/	(m_Matrix[0] * k.m_Matrix[0]) + (m_Matrix[1] * k.m_Matrix[3]) + (m_Matrix[2] * k.m_Matrix[6]),
+		/*x2*/	(m_Matrix[0] * k.m_Matrix[1]) + (m_Matrix[1] * k.m_Matrix[4]) + (m_Matrix[2] * k.m_Matrix[7]),
+		/*x3*/	(m_Matrix[0] * k.m_Matrix[2]) + (m_Matrix[1] * k.m_Matrix[5]) + (m_Matrix[2] * k.m_Matrix[8]),
+		/*y1*/	(m_Matrix[3] * k.m_Matrix[0]) + (m_Matrix[4] * k.m_Matrix[3]) + (m_Matrix[5] * k.m_Matrix[6]),
+		/*y2*/	(m_Matrix[3] * k.m_Matrix[1]) + (m_Matrix[4] * k.m_Matrix[4]) + (m_Matrix[5] * k.m_Matrix[7]),
+		/*y3*/	(m_Matrix[3] * k.m_Matrix[2]) + (m_Matrix[4] * k.m_Matrix[5]) + (m_Matrix[5] * k.m_Matrix[8]),
+		/*z1*/	(m_Matrix[6] * k.m_Matrix[0]) + (m_Matrix[7] * k.m_Matrix[3]) + (m_Matrix[8] * k.m_Matrix[6]),
+		/*z2*/	(m_Matrix[6] * k.m_Matrix[1]) + (m_Matrix[7] * k.m_Matrix[4]) + (m_Matrix[8] * k.m_Matrix[7]),
+		/*z3*/	(m_Matrix[6] * k.m_Matrix[2]) + (m_Matrix[7] * k.m_Matrix[5]) + (m_Matrix[8] * k.m_Matrix[8]));
 	return newMat;
 }
 
-Vector3 Matrix33::operator*(Vector3 k)
+Vector3 Matrix3x3::operator*(Vector3 k)
 {
 	return Mult(k);
 }
 
-Vector3 Matrix33::Mult(Vector3 k)
+Vector3 Matrix3x3::Mult(Vector3 k)
 {
 	Vector3 newVec = Vector3(
-		/*x*/	(k.X() * m_MatShape[0]) + (k.X() * m_MatShape[1]) + (k.X() * m_MatShape[2]),
-		/*y*/	(k.Y() * m_MatShape[3]) + (k.Y() * m_MatShape[4]) + (k.Y() * m_MatShape[5]),
-		/*z*/	(k.Z() * m_MatShape[6]) + (k.Z() * m_MatShape[7]) + (k.Z() * m_MatShape[8]));
+		/*x*/	(k.X() * m_Matrix[0]) + (k.X() * m_Matrix[1]) + (k.X() * m_Matrix[2]),
+		/*y*/	(k.Y() * m_Matrix[3]) + (k.Y() * m_Matrix[4]) + (k.Y() * m_Matrix[5]),
+		/*z*/	(k.Z() * m_Matrix[6]) + (k.Z() * m_Matrix[7]) + (k.Z() * m_Matrix[8]));
 	return newVec;
 }
 
-Matrix33 Matrix33::RotateX(float d)
+bool Matrix3x3::operator==(Matrix3x3 & result)
 {
-	Matrix33 newMat = Matrix33(
-		m_MatShape[0], m_MatShape[1], m_MatShape[2],
-		m_MatShape[3], cos(d), -sin(d),
-		m_MatShape[6], sin(d), cos(d));
+	return m_Matrix[0] == result.m_Matrix[0] && m_Matrix[1] == result.m_Matrix[1] && m_Matrix[2] == result.m_Matrix[2] && m_Matrix[3] == result.m_Matrix[3];
+}
+
+Matrix3x3 Matrix3x3::RotateX(float d)
+{
+	Matrix3x3 newMat = Matrix3x3(
+		m_Matrix[0], m_Matrix[1], m_Matrix[2],
+		m_Matrix[3], cos(d), -sin(d),
+		m_Matrix[6], sin(d), cos(d));
 	*this = *this * newMat;
 	return *this;
 
 }
 
-Matrix33 Matrix33::RotateY(float d)
+Matrix3x3 Matrix3x3::RotateY(float d)
 {
-	Matrix33 newMat = Matrix33(
-		cos(d), m_MatShape[1], sin(d),
-		m_MatShape[3], m_MatShape[4], m_MatShape[5],
-		-sin(d), m_MatShape[7], cos(d));
+	Matrix3x3 newMat = Matrix3x3(
+		cos(d), m_Matrix[1], sin(d),
+		m_Matrix[3], m_Matrix[4], m_Matrix[5],
+		-sin(d), m_Matrix[7], cos(d));
 	*this = *this * newMat;
 	return *this;
 }
 
-Matrix33 Matrix33::RotateZ(float d)
+Matrix3x3 Matrix3x3::RotateZ(float d)
 {
-	Matrix33 newMat = Matrix33(
-		cos(d), -sin(d), m_MatShape[2],
-		sin(d), cos(d), m_MatShape[5],
-		m_MatShape[6], m_MatShape[7], m_MatShape[8]);
+	Matrix3x3 newMat = Matrix3x3(
+		cos(d), -sin(d), m_Matrix[2],
+		sin(d), cos(d), m_Matrix[5],
+		m_Matrix[6], m_Matrix[7], m_Matrix[8]);
 	*this = *this * newMat;
 	return *this;
 
 }
 
-void Matrix33::print()
+Matrix4x4::Matrix4x4(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4, float z1, float z2, float z3, float z4, float w1, float w2, float w3, float w4)
 {
-	float* tmp = &m_MatShape[0];
-	for (int i = 0; i < 16; i++)
-	{
-		float a = truncf(tmp[i] * 10.0) / 10.0;
-		tmp[i] = a;
-	}
-	std::cout << "{ " << m_MatShape[0] << "  " << m_MatShape[1] << "  " << m_MatShape[2] << "  }\n"
-		<< "{ " << m_MatShape[3] << "     " << m_MatShape[4] << "  " << m_MatShape[5] << "    }\n"
-		<< "{ " << m_MatShape[6] << "  " << m_MatShape[7] << "  " << m_MatShape[8] << " }\n";
+	m_Matrix[0] = x1; m_Matrix[1] = x2; m_Matrix[2] = x3; m_Matrix[3] = x4;
+	m_Matrix[4] = y1; m_Matrix[5] = y2; m_Matrix[6] = y3; m_Matrix[7] = x4;
+	m_Matrix[8] = z1; m_Matrix[9] = z2; m_Matrix[10] = z3; m_Matrix[11] = z4;
+	m_Matrix[12] = w1; m_Matrix[13] = w2; m_Matrix[14] = w3; m_Matrix[15] = w4;
 }
 
-Matrix44::Matrix44(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4, float z1, float z2, float z3, float z4, float w1, float w2, float w3, float w4)
+Matrix4x4::Matrix4x4(Vector4 columnA, Vector4 columnB, Vector4 columnC, Vector4 columnD)
 {
-	m_MatShape[0] = x1; m_MatShape[1] = x2; m_MatShape[2] = x3; m_MatShape[3] = x4;
-	m_MatShape[4] = y1; m_MatShape[5] = y2; m_MatShape[6] = y3; m_MatShape[7] = x4;
-	m_MatShape[8] = z1; m_MatShape[9] = z2; m_MatShape[10] = z3; m_MatShape[11] = z4;
-	m_MatShape[12] = w1; m_MatShape[13] = w2; m_MatShape[14] = w3; m_MatShape[15] = w4;
+	m_Matrix[0] = columnA.X(); m_Matrix[1] = columnB.X(); m_Matrix[2] = columnC.X(); m_Matrix[3] = columnD.X();
+	m_Matrix[4] = columnA.Y(); m_Matrix[5] = columnB.Y(); m_Matrix[6] = columnC.Y(); m_Matrix[7] = columnD.Y();
+	m_Matrix[8] = columnA.Z(); m_Matrix[9] = columnB.Z(); m_Matrix[10] = columnC.Z(); m_Matrix[11] = columnD.Z();
+	m_Matrix[12] = columnA.W(); m_Matrix[13] = columnB.W(); m_Matrix[14] = columnC.W(); m_Matrix[15] = columnD.W();
 }
 
-Matrix44::Matrix44(Vector4 columnA, Vector4 columnB, Vector4 columnC, Vector4 columnD)
-{
-	m_MatShape[0] = columnA.X(); m_MatShape[1] = columnB.X(); m_MatShape[2] = columnC.X(); m_MatShape[3] = columnD.X();
-	m_MatShape[4] = columnA.Y(); m_MatShape[5] = columnB.Y(); m_MatShape[6] = columnC.Y(); m_MatShape[7] = columnD.Y();
-	m_MatShape[8] = columnA.Z(); m_MatShape[9] = columnB.Z(); m_MatShape[10] = columnC.Z(); m_MatShape[11] = columnD.Z();
-	m_MatShape[12] = columnA.W(); m_MatShape[13] = columnB.W(); m_MatShape[14] = columnC.W(); m_MatShape[15] = columnD.W();
-}
-
-Matrix44 Matrix44::operator*(Matrix44 k)
+Matrix4x4 Matrix4x4::operator*(Matrix4x4 k)
 {
 	return Mult(k);
 }
 
-Matrix44 Matrix44::Mult(Matrix44 k)
+Matrix4x4 Matrix4x4::Mult(Matrix4x4 k)
 {
-	Matrix44 newMat = Matrix44(
-		/*x1*/	(m_MatShape[0] * k.m_MatShape[0]) + (m_MatShape[1] * k.m_MatShape[4]) + (m_MatShape[2] * k.m_MatShape[8]) + (m_MatShape[3] * k.m_MatShape[12]),
-		/*x2*/	(m_MatShape[0] * k.m_MatShape[1]) + (m_MatShape[1] * k.m_MatShape[5]) + (m_MatShape[2] * k.m_MatShape[9]) + (m_MatShape[3] * k.m_MatShape[13]),
-		/*x3*/	(m_MatShape[0] * k.m_MatShape[2]) + (m_MatShape[1] * k.m_MatShape[6]) + (m_MatShape[2] * k.m_MatShape[10]) + (m_MatShape[3] * k.m_MatShape[14]),
-		/*x4*/	(m_MatShape[0] * k.m_MatShape[3]) + (m_MatShape[1] * k.m_MatShape[7]) + (m_MatShape[2] * k.m_MatShape[11]) + (m_MatShape[3] * k.m_MatShape[15]),
-		/*y1*/	(m_MatShape[4] * k.m_MatShape[0]) + (m_MatShape[5] * k.m_MatShape[4]) + (m_MatShape[6] * k.m_MatShape[8]) + (m_MatShape[7] * k.m_MatShape[12]),
-		/*y2*/	(m_MatShape[4] * k.m_MatShape[1]) + (m_MatShape[5] * k.m_MatShape[5]) + (m_MatShape[6] * k.m_MatShape[9]) + (m_MatShape[7] * k.m_MatShape[13]),
-		/*y3*/	(m_MatShape[4] * k.m_MatShape[2]) + (m_MatShape[5] * k.m_MatShape[6]) + (m_MatShape[6] * k.m_MatShape[10]) + (m_MatShape[7] * k.m_MatShape[14]),
-		/*y4*/	(m_MatShape[4] * k.m_MatShape[3]) + (m_MatShape[5] * k.m_MatShape[7]) + (m_MatShape[6] * k.m_MatShape[11]) + (m_MatShape[7] * k.m_MatShape[15]),
-		/*z1*/	(m_MatShape[8] * k.m_MatShape[0]) + (m_MatShape[9] * k.m_MatShape[4]) + (m_MatShape[10] * k.m_MatShape[8]) + (m_MatShape[11] * k.m_MatShape[12]),
-		/*z2*/	(m_MatShape[8] * k.m_MatShape[1]) + (m_MatShape[9] * k.m_MatShape[5]) + (m_MatShape[10] * k.m_MatShape[9]) + (m_MatShape[11] * k.m_MatShape[13]),
-		/*z3*/	(m_MatShape[8] * k.m_MatShape[2]) + (m_MatShape[9] * k.m_MatShape[6]) + (m_MatShape[10] * k.m_MatShape[10]) + (m_MatShape[11] * k.m_MatShape[14]),
-		/*z4*/	(m_MatShape[8] * k.m_MatShape[3]) + (m_MatShape[9] * k.m_MatShape[7]) + (m_MatShape[10] * k.m_MatShape[11]) + (m_MatShape[11] * k.m_MatShape[15]),
-		/*w1*/	(m_MatShape[12] * k.m_MatShape[0]) + (m_MatShape[13] * k.m_MatShape[4]) + (m_MatShape[14] * k.m_MatShape[8]) + (m_MatShape[15] * k.m_MatShape[12]),
-		/*w2*/	(m_MatShape[12] * k.m_MatShape[1]) + (m_MatShape[13] * k.m_MatShape[5]) + (m_MatShape[14] * k.m_MatShape[9]) + (m_MatShape[15] * k.m_MatShape[13]),
-		/*w3*/	(m_MatShape[12] * k.m_MatShape[2]) + (m_MatShape[13] * k.m_MatShape[6]) + (m_MatShape[14] * k.m_MatShape[10]) + (m_MatShape[15] * k.m_MatShape[14]),
-		/*w4*/	(m_MatShape[12] * k.m_MatShape[3]) + (m_MatShape[13] * k.m_MatShape[7]) + (m_MatShape[14] * k.m_MatShape[11]) + (m_MatShape[15] * k.m_MatShape[15]));
+	Matrix4x4 newMat = Matrix4x4(
+		/*x1*/	(m_Matrix[0] * k.m_Matrix[0]) + (m_Matrix[1] * k.m_Matrix[4]) + (m_Matrix[2] * k.m_Matrix[8]) + (m_Matrix[3] * k.m_Matrix[12]),
+		/*x2*/	(m_Matrix[0] * k.m_Matrix[1]) + (m_Matrix[1] * k.m_Matrix[5]) + (m_Matrix[2] * k.m_Matrix[9]) + (m_Matrix[3] * k.m_Matrix[13]),
+		/*x3*/	(m_Matrix[0] * k.m_Matrix[2]) + (m_Matrix[1] * k.m_Matrix[6]) + (m_Matrix[2] * k.m_Matrix[10]) + (m_Matrix[3] * k.m_Matrix[14]),
+		/*x4*/	(m_Matrix[0] * k.m_Matrix[3]) + (m_Matrix[1] * k.m_Matrix[7]) + (m_Matrix[2] * k.m_Matrix[11]) + (m_Matrix[3] * k.m_Matrix[15]),
+		/*y1*/	(m_Matrix[4] * k.m_Matrix[0]) + (m_Matrix[5] * k.m_Matrix[4]) + (m_Matrix[6] * k.m_Matrix[8]) + (m_Matrix[7] * k.m_Matrix[12]),
+		/*y2*/	(m_Matrix[4] * k.m_Matrix[1]) + (m_Matrix[5] * k.m_Matrix[5]) + (m_Matrix[6] * k.m_Matrix[9]) + (m_Matrix[7] * k.m_Matrix[13]),
+		/*y3*/	(m_Matrix[4] * k.m_Matrix[2]) + (m_Matrix[5] * k.m_Matrix[6]) + (m_Matrix[6] * k.m_Matrix[10]) + (m_Matrix[7] * k.m_Matrix[14]),
+		/*y4*/	(m_Matrix[4] * k.m_Matrix[3]) + (m_Matrix[5] * k.m_Matrix[7]) + (m_Matrix[6] * k.m_Matrix[11]) + (m_Matrix[7] * k.m_Matrix[15]),
+		/*z1*/	(m_Matrix[8] * k.m_Matrix[0]) + (m_Matrix[9] * k.m_Matrix[4]) + (m_Matrix[10] * k.m_Matrix[8]) + (m_Matrix[11] * k.m_Matrix[12]),
+		/*z2*/	(m_Matrix[8] * k.m_Matrix[1]) + (m_Matrix[9] * k.m_Matrix[5]) + (m_Matrix[10] * k.m_Matrix[9]) + (m_Matrix[11] * k.m_Matrix[13]),
+		/*z3*/	(m_Matrix[8] * k.m_Matrix[2]) + (m_Matrix[9] * k.m_Matrix[6]) + (m_Matrix[10] * k.m_Matrix[10]) + (m_Matrix[11] * k.m_Matrix[14]),
+		/*z4*/	(m_Matrix[8] * k.m_Matrix[3]) + (m_Matrix[9] * k.m_Matrix[7]) + (m_Matrix[10] * k.m_Matrix[11]) + (m_Matrix[11] * k.m_Matrix[15]),
+		/*w1*/	(m_Matrix[12] * k.m_Matrix[0]) + (m_Matrix[13] * k.m_Matrix[4]) + (m_Matrix[14] * k.m_Matrix[8]) + (m_Matrix[15] * k.m_Matrix[12]),
+		/*w2*/	(m_Matrix[12] * k.m_Matrix[1]) + (m_Matrix[13] * k.m_Matrix[5]) + (m_Matrix[14] * k.m_Matrix[9]) + (m_Matrix[15] * k.m_Matrix[13]),
+		/*w3*/	(m_Matrix[12] * k.m_Matrix[2]) + (m_Matrix[13] * k.m_Matrix[6]) + (m_Matrix[14] * k.m_Matrix[10]) + (m_Matrix[15] * k.m_Matrix[14]),
+		/*w4*/	(m_Matrix[12] * k.m_Matrix[3]) + (m_Matrix[13] * k.m_Matrix[7]) + (m_Matrix[14] * k.m_Matrix[11]) + (m_Matrix[15] * k.m_Matrix[15]));
 	return newMat;
 }
 
-Vector4 Matrix44::operator*(Vector4 k)
+Vector4 Matrix4x4::operator*(Vector4 k)
 {
 	return Mult(k);
-	
+
 }
 
-Vector4 Matrix44::Mult(Vector4 k)
+Vector4 Matrix4x4::Mult(Vector4 k)
 {
 	Vector4 newVec = Vector4(
-		/*x*/(k.X() * m_MatShape[0]) + (k.X() * m_MatShape[1]) + (k.X() * m_MatShape[2]) + (k.X() * m_MatShape[3]),
-		/*y*/(k.Y() * m_MatShape[4]) + (k.Y() * m_MatShape[5]) + (k.Y() * m_MatShape[6]) + (k.Y() * m_MatShape[7]),
-		/*z*/(k.Z() * m_MatShape[8]) + (k.Z() * m_MatShape[9]) + (k.Z() * m_MatShape[10]) + (k.Z() * m_MatShape[11]),
-		/*w*/(k.W() * m_MatShape[12]) + (k.W() * m_MatShape[13]) + (k.W() * m_MatShape[14]) + (k.W() * m_MatShape[15]));
+		/*x*/(k.X() * m_Matrix[0]) + (k.X() * m_Matrix[1]) + (k.X() * m_Matrix[2]) + (k.X() * m_Matrix[3]),
+		/*y*/(k.Y() * m_Matrix[4]) + (k.Y() * m_Matrix[5]) + (k.Y() * m_Matrix[6]) + (k.Y() * m_Matrix[7]),
+		/*z*/(k.Z() * m_Matrix[8]) + (k.Z() * m_Matrix[9]) + (k.Z() * m_Matrix[10]) + (k.Z() * m_Matrix[11]),
+		/*w*/(k.W() * m_Matrix[12]) + (k.W() * m_Matrix[13]) + (k.W() * m_Matrix[14]) + (k.W() * m_Matrix[15]));
 	return newVec;
 }
 
-Matrix44 Matrix44::RotateX(float d)
+bool Matrix4x4::operator==(Matrix4x4 & result)
 {
-	Matrix44 newMat = Matrix44(
-		m_MatShape[0], m_MatShape[1], m_MatShape[2], m_MatShape[3],
-		m_MatShape[4], cos(d), -sin(d), m_MatShape[7],
-		m_MatShape[8], sin(d), cos(d), m_MatShape[11],
-		m_MatShape[12], m_MatShape[13], m_MatShape[14], m_MatShape[15]);
+	return  m_Matrix[0] == result.m_Matrix[0] && m_Matrix[1] == result.m_Matrix[1] && m_Matrix[2] == result.m_Matrix[2] && m_Matrix[3] == result.m_Matrix[3];
+}
+
+Matrix4x4 Matrix4x4::RotateX(float d)
+{
+	Matrix4x4 newMat = Matrix4x4(
+		m_Matrix[0], m_Matrix[1], m_Matrix[2], m_Matrix[3],
+		m_Matrix[4], cos(d), -sin(d), m_Matrix[7],
+		m_Matrix[8], sin(d), cos(d), m_Matrix[11],
+		m_Matrix[12], m_Matrix[13], m_Matrix[14], m_Matrix[15]);
 	*this = *this * newMat;
 	return *this;
 }
 
-Matrix44 Matrix44::RotateY(float d)
+Matrix4x4 Matrix4x4::RotateY(float d)
 {
-	Matrix44 newMat = Matrix44(
-		cos(d), m_MatShape[1], sin(d), m_MatShape[3],
-		m_MatShape[4], m_MatShape[5], m_MatShape[6], m_MatShape[7],
-		-sin(d), m_MatShape[9], cos(d), m_MatShape[11],
-		m_MatShape[12], m_MatShape[13], m_MatShape[14], m_MatShape[15]);
+	Matrix4x4 newMat = Matrix4x4(
+		cos(d), m_Matrix[1], sin(d), m_Matrix[3],
+		m_Matrix[4], m_Matrix[5], m_Matrix[6], m_Matrix[7],
+		-sin(d), m_Matrix[9], cos(d), m_Matrix[11],
+		m_Matrix[12], m_Matrix[13], m_Matrix[14], m_Matrix[15]);
 	*this = *this * newMat;
 	return *this;
 
 }
 
-Matrix44 Matrix44::RotateZ(float d)
+Matrix4x4 Matrix4x4::RotateZ(float d)
 {
-	Matrix44 newMat = Matrix44(
-		cos(d), -sin(d), m_MatShape[2], m_MatShape[3],
-		sin(d), cos(d), m_MatShape[6], m_MatShape[7],
-		m_MatShape[8], m_MatShape[9], m_MatShape[10], m_MatShape[11],
-		m_MatShape[12], m_MatShape[13], m_MatShape[14], m_MatShape[15]);
+	Matrix4x4 newMat = Matrix4x4(
+		cos(d), -sin(d), m_Matrix[2], m_Matrix[3],
+		sin(d), cos(d), m_Matrix[6], m_Matrix[7],
+		m_Matrix[8], m_Matrix[9], m_Matrix[10], m_Matrix[11],
+		m_Matrix[12], m_Matrix[13], m_Matrix[14], m_Matrix[15]);
 	*this = *this * newMat;
 	return *this;
 }
 
-void Matrix44::print()
-{
-	float* tmp= &m_MatShape[0];
-	for (int i = 0; i < 16; i++)
-	{		
-		float a = truncf(tmp[i] * 10.0) / 10.0;
-		tmp[i] = a;
-	}
 
-	std::cout << "{  " << tmp[0] << "  " << tmp[1] << "  " << tmp[2] << "   " << tmp[3] << "       }\n"
-		<< "{  " << tmp[4] << "     " << tmp[5] << "  " << tmp[6] << "     " << tmp[7] << "       }\n"
-		<< "{  " << tmp[8] << "  " << tmp[9] << "  " << tmp[10] << "  " << tmp[11] << "       }\n"
-		<< "{  " << tmp[12] << "     " << tmp[13] << "  " << tmp[14] << "     " << tmp[15] << "       }\n";
-}
+float Round(float value, unsigned int decimals)
+{
+	return truncf(value * decimals) / (float)decimals;
+} 
