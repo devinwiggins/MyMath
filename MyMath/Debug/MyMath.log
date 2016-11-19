@@ -1,3 +1,6 @@
-﻿  MyMath.cpp
-c:\users\devin.wiggins\documents\github\mymath\mymath\mymath.cpp(256): error C3861: 'Round': identifier not found
-c:\users\devin.wiggins\documents\github\mymath\mymath\mymath.cpp(257): error C3861: 'Round': identifier not found
+﻿  main.cpp
+  MyMath.cpp
+c:\users\devin.wiggins\documents\github\mymath\mymath\mymath.cpp(525): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating Code...
+  MyMath.vcxproj -> C:\Users\devin.wiggins\Documents\GitHub\MyMath\Debug\MyMath.exe
+  MyMath.vcxproj -> C:\Users\devin.wiggins\Documents\GitHub\MyMath\Debug\MyMath.pdb (Partial PDB)

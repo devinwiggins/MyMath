@@ -4,6 +4,7 @@
 #include <math.h>
 #include <cassert>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -130,3 +131,5 @@ public:
 	Matrix4x4 RotateZ(float d); // rotates in respect to z axis
 	friend ofstream& operator << (ofstream & output, Matrix4x4 &n); // prints matrix to file
 };
+
+float setDecLimit(float value, unsigned int decimals);
